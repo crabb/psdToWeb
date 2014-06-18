@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="eng">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="shortcut icon" href="public/images/logo_img.png">
+	<title>my web template</title>
+	<link rel="stylesheet" href="public/stylesheets/mytemplate.css" media="screen" />
+	<!--<style type="text/css"></style>-->
+	<!--<script type="text/javascript" src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>-->
+	<!--<script type="text/javascript" src="public/javascripts/modernizr.js"></script>-->
+	<script type="text/javascript">
+		window.onload = function() {
+			advMotion();
+		};
+
+		function getByClass(oParnt, sClass) {
+			var oParent = oParnt || document;
+			var aElems = oParent.getElementsByTagName('*');
+			var aResult = [];
+			var reg = new RegExp('\\b' + sClass + '\\b');
+			for (var i = 0, len = aElems.length; i < len; i++) {
+				if (reg.test(aElems[i].className)) {
+					aResult.push(aElems[i]);
+				}
+			}
+			return aResult;
+		}
+
+		function getStyle(obj, attr, value) {
+			if (arguments.length == 2) {
+				if (obj.currentStyle) {
+					return obj.currentStyle[attr];
+				} else {
+					return getComputedStyle(obj, false)[attr];
+				}
+			} else if (arguments.length == 3) {
+				obj.style[attr] = value;
+			}
+		}
+
+		function fadeIn(obj) {
+			var iStyle = parseInt(parseFloat(getStyle(obj, 'opacity') * 100));
+			if (iStyle == 1) return false;
+			var opacValue = 0;
+			if (obj.timer) {
+				clearInterval(obj.timer);
+			}
+			var repeat = function() {
+				var iStep = 5;
+				if (opacValue == 100) {
+					clearInterval(obj.timer);
+				} else {
+					opacValue += iStep;
+					obj.style.opacity = opacValue / 100;
+					obj.style.filter = 'alpha(opacity: ' + opacValue + ')';
+				}
+			};
+			obj.timer = setInterval(repeat, 30);
+		}
+
+		function fadeOut(obj) {
+			var iStyle = parseInt(parseFloat(getStyle(obj, 'opacity') * 100));
+			if (iStyle == 0) return false;
+			var opacValue = 100;
+			if (obj.timer) {
+				clearInterval(obj.timer);
+			}
+			var repeat = function() {
+				var iStep = -5;
+				if (opacValue == 0) {
+					clearInterval(obj.timer);
+				} else {
+					opacValue += iStep;
+					obj.style.opacity = opacValue / 100;
+					obj.style.filter = 'alpha(opacity: ' + opacValue + ')';
+				}
+			};
+			obj.timer = setInterval(repeat, 30);
+		}
+
+		function advMotion() {
+			var oAdv = document.getElementById('adv');
+			var aLi = oAdv.getElementsByTagName('li');
+
+			var oPrev = getByClass(oAdv, 'prev')[0];
+			var oNext = getByClass(oAdv, 'next')[0];
+			var oPrevBtn = getByClass(oAdv, 'prev_btn')[0];
+			var oNextBtn = getByClass(oAdv, 'next_btn')[0];
+			var iIndex = 0;
+
+			var timer = setInterval(autoPlay, 3000);
+
+			function autoPlay() {
+				if (iIndex == aLi.length - 1) {
+					iIndex = 0;
+				} else {
+					iIndex++;
+				}
+
+				for (var i = 0, len = aLi.length; i < len; i++) {
+					fadeOut(aLi[i]);
+				}
+				fadeIn(aLi[iIndex]);
+			}
+
+			function autoPlayPrev() {
+				if (iIndex == 0) {
+					iIndex = aLi.length - 1;
+				} else {
+					iIndex--;
+				}
+
+				for (var i = 0, len = aLi.length; i < len; i++) {
+					fadeOut(aLi[i]);
+				}
+				fadeIn(aLi[iIndex]);
+			}
+
+
+			oPrev.onmouseover = oPrevBtn.onmouseover = function() {
+				clearInterval(timer);
+			};
+			oPrev.onmouseout = oPrevBtn.onmouseout = function() {
+				timer = setInterval(autoPlay, 3000);
+			};
+
+			oNext.onmouseover = oNextBtn.onmouseover = function() {
+				clearInterval(timer);
+			};
+			oNext.onmouseout = oNextBtn.onmouseout = function() {
+				timer = setInterval(autoPlay, 3000);
+			};
+
+			oPrev.onclick = oPrevBtn.onclick = function() {
+				autoPlayPrev();
+			};
+			oNext.onclick = oNextBtn.onclick = function() {
+				autoPlay();
+			};
+		}
+      </script>
+</head>
+
+<body>
+	<a name="anchor1"></a>
+	<div id="nav">
+		<ul class="nav_left">
+			<li>
+				<a href="javascript:;" class="active">
+				<span></span>home</a>
+			</li>
+			<li>
+				<a href="javascript:;">
+				<span></span>about</a>
+			</li>
+			<li>
+				<a href="javascript:;">
+				<span></span>portfolio</a>
+			</li>
+		</ul>
+		<ul class="nav_right">
+			<li>
+				<a href="javascript:;"><span></span>services</a>
+			</li>
+			<li>
+				<a href="javascript:;"><span></span>blog</a>
+			</li>
+			<li>
+				<a href="javascript:;"><span></span>contact</a>
+			</li>
+		</ul>
+			<ul id="logo">
+			<li>
+				<a href="javascript:;">
+					<img src="public/images/logo_img.png" alt="web logo" title="web logo" />
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="top_txt">
+		<h2 class="txt1">Hello I am Rafi, a</h2>
+		<h1 class="txt2">graphic and web designer</h1>
+		<h1 class="hire_btn"><a href="javascript:;">hire me</a></h1>
+	</div>
+
+	<div id="content_bottom">
+		<div id="content_left">
+			<div id="content_right">
+				<div id="adv">
+					<a class="prev_btn" href="javascript:;"></a>
+					<a class="next_btn" href="javascript:;"></a>
+					<span class="prev"></span>
+					<span class="next"></span>
+					<ul>
+						<li style="filter:alpha(opacity: 100);opacity:1;">
+							<a href="javascript:;">
+								<img src="public/images/banner/portfolio-adv1.jpg" alt="adv_pics" />
+							</a>
+						</li>
+						<li style="filter:alpha(opacity: 0);opacity:0;">
+							<a href="javascript:;">
+								<img src="public/images/banner/portfolio-adv2.jpg" alt="adv_pics" />
+							</a>
+						</li>
+						<li style="filter:alpha(opacity: 0);opacity:0;">
+							<a href="javascript:;">
+								<img src="public/images/banner/portfolio-adv3.jpg" alt="adv_pics" />
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="main">
+		<dl class="infos">
+			<dd class="d1">
+				<ul>
+					<h2 class="about">about me</h2>
+					<li>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean placerat porttitor ligula quis fringilla. Vestibulum viverra justo in dui pellentesque convallis. Vivamus ac ligula felis, et bibendum urna. Mauris vitae mauris quis arcu rhoncus auctor ac eu nibh. Vestibulum volutpat justo sit amet nisi auctor vitae rutrum dui porttitor.
+						</p>
+					</li>
+				</ul>
+			</dd>
+			<dd class="d2">
+				<ul>
+				<h2 class="servic">my services</h2>
+				<li>
+				<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean placerat porttitor ligula quis fringilla. Vestibulum viverra justo in dui pellentesque convallis. Vivamus ac ligula felis, et bibendum urna. Mauris vitae mauris quis arcu rhoncus auctor ac eu nibh. Vestibulum volutpat justo sit amet nisi auctor vitae rutrum dui porttitor.
+				</p>
+				</li>
+				</ul>
+			</dd>
+			<dd class="d3">
+				<ul class="cont_me">
+					<h2>contact me</h2>
+					<li class="email">
+						<a href="javascript:;">graphicsfuel@gmail.com</a>
+					</li>
+					<li class="phone">
+						<a href="javascript:;">123-456-7890</a>
+					</li>
+					<li class="dcv">
+						<a href="javascript:;">Download My CV</a>
+					</li>
+				</ul>
+				<ul class="follow_me">
+					<h2>connect with me</h2>
+					<li class="twitt">
+						<a href="javascript:;"></a>
+					</li>
+					<li class="faceb">
+						<a href="javascript:;"></a>
+					</li>
+					<li class="in">
+						<a href="javascript:;"></a>
+					</li>
+					<li class="flickr">
+						<a href="javascript:;"></a>
+					</li>
+					<li class="cv">
+						<a href="javascript:;"></a>
+					</li>
+				</ul>
+			</dd>
+		</dl>
+	</div>
+
+	<div id="footer">
+		<div class="myfrids">
+			<img src="public/images/tea_cup.png" alt="tea_cup" />
+			<ul>
+				<h2>my friends</h2>
+				<li>
+					<a href="javascript:;">GrapihcsFuel</a>
+				</li>
+				<li>
+					<a href="javascript:;">DreamViewStudios</a>
+				</li>
+				<li>
+					<a href="javascript:;">MinisiteGraphics</a>
+				</li>
+			</ul>
+		</div>
+		<div class="rece_post">
+			<ul>
+				<h2>Recent Post</h2>
+				<li>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				</li>
+				<li>
+					Aenean placerat porttitor ligula quis fringilla.
+				</li>
+			</ul>
+		</div>
+		<div class="thku">
+			<h2 class="txt3">Thank You!</h2>
+			<strong></strong>
+			<h1 class="hire_btn">
+				<a class="see_btn" href="javascript:;">see my works</a>
+			</h1>
+		</div>
+		<p class="copyrit">
+			Copyright © Portfolio Theme. All Rights Reserved. Designed by GraphicsFuel.com
+		</p>
+		<a class="anch" href="index_inner.html#anchor1"></a>
+	</div>
+	<!--[if IE 6]>
+		<script type="text/javascript" src="public/javascripts/DD_belatedPNG_0.0.8a.js"></script>
+		<script type="text/javascript">DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+</body>
+
+</html>
